@@ -3,8 +3,8 @@ language: cpp
 compiler: clang
 
 install:
-  - pip install --upgrade pip
-  - pip install conan
+  - sudo pip install --upgrade pip
+  - sudo pip install conan
   - conan user
 
 before_script:
