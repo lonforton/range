@@ -11,7 +11,9 @@ int main()
   {
     IpPool ip_pool = get_input();
 
-    std::sort(ip_pool.begin(), ip_pool.end(), std::greater<std::vector<int>>());
+    ip_pool = std::move(ip_pool)
+              |  ra::sort
+              |  ra::reverse;
 
     output(ip_pool);
 
