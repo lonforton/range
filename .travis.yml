@@ -3,6 +3,7 @@ language: cpp
 compiler: clang
 
 install:
+  - sudo apt-get remove --auto-remove python-enum34
   - sudo pip install --upgrade pip
   - sudo pip install conan
   - conan user
