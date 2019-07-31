@@ -1,4 +1,4 @@
-#define BOOST_TEST_MODULE ranfe_test_module
+#define BOOST_TEST_MODULE range_test_module
 
 #include <boost/test/unit_test.hpp>
 
@@ -46,7 +46,9 @@ BOOST_AUTO_TEST_CASE(range_sort_test)
 
   IpPool ip_pool = get_input(ss);  
 
-  std::sort(ip_pool.begin(), ip_pool.end(), std::greater<std::vector<int>>());
+  ip_pool = std::move(ip_pool)
+          |  ra::sort
+          |  ra::reverse;
 
   std::vector<std::vector<int>> expected_sorted_ip_pool { {1, 101, 1, 1}, {1,87,203,225}, {1,70,144,70}, {1, 11, 69, 33}, {1,3,234,8} };
 
@@ -64,7 +66,9 @@ BOOST_AUTO_TEST_CASE(range_filter_1_test)
 
   IpPool ip_pool = get_input(ss);
 
-  std::sort(ip_pool.begin(), ip_pool.end(), std::greater<std::vector<int>>());
+  ip_pool = std::move(ip_pool)
+          |  ra::sort
+          |  ra::reverse;
 
   IpPool filtered_ip_pool = filter(ip_pool, 1);
 
@@ -80,7 +84,9 @@ BOOST_AUTO_TEST_CASE(range_filter_2_test)
 
   IpPool ip_pool = get_input(ss);
 
-  std::sort(ip_pool.begin(), ip_pool.end(), std::greater<std::vector<int>>());
+  ip_pool = std::move(ip_pool)
+          |  ra::sort
+          |  ra::reverse;
 
   IpPool filtered_ip_pool = filter(ip_pool, 1, 46);
 
@@ -100,7 +106,9 @@ BOOST_AUTO_TEST_CASE(range_filter_any_test)
 
   IpPool ip_pool = get_input(ss);
 
-  std::sort(ip_pool.begin(), ip_pool.end(), std::greater<std::vector<int>>());
+  ip_pool = std::move(ip_pool)
+          |  ra::sort
+          |  ra::reverse;
 
   IpPool filtered_ip_pool = filter_any(ip_pool, 46);
 
