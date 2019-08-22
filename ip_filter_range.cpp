@@ -16,8 +16,22 @@ using IpAddressStr = std::vector<std::string>;
 using IpAddress = std::vector<int>;
 
 IpAddressStr split(const std::string &str, char splitter)
-{   
-  return str | rv::split(splitter);
+{
+  IpAddressStr ip_address;
+
+  std::string::size_type start = 0;
+  std::string::size_type stop = str.find_first_of(splitter);
+  while (stop != std::string::npos)
+  {
+    ip_address.push_back(str.substr(start, stop - start));
+
+    start = stop + 1;
+    stop = str.find_first_of(splitter, start);
+  }
+
+  ip_address.push_back(str.substr(start));
+
+  return ip_address;
 }
 
 template<typename... Args>
@@ -39,18 +53,10 @@ IpPool filter(const IpPool& ip_pool, Args... args)
 
 IpPool filter_any(const IpPool& ip_pool, int filter_expression)
 {  
-  IpPool ip_pool_filtered;
-  for(auto ip_address : ip_pool    
-     | rv::filter([filter_expression](const auto& ip_addr)   
-                  { 
-                     return rs::any_of(ip_addr, [filter_expression](int value) { return value == filter_expression; });
-                  })      
-     )         
-  {  
-    ip_pool_filtered.push_back(ip_address);
-  }    
-
-  return ip_pool_filtered;
+  return ip_pool | rv::filter([filter_expression](const auto& ip_addr)   
+                   { 
+                      return rs::any_of(ip_addr, [filter_expression](int value) { return value == filter_expression; });
+                   });      
 }
 
 void output(const IpPool &ip_pool)
